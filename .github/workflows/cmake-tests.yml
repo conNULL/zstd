@@ -26,7 +26,7 @@ jobs:
   # with the default Unix Makefiles generator driven purely through cmake commands
   cmake-root-basic:
     name: "CMake Root Build"
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
     - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # tag=v7.0.1
     - name: Configure (Root)
@@ -41,7 +41,7 @@ jobs:
   # with the existing build system integration
   cmake-ubuntu-basic:
     name: "CMake build using make wrapper"
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
     - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # tag=v7.0.1
     - name: Install dependencies
@@ -61,7 +61,7 @@ jobs:
     strategy:
       matrix:
         include:
-          - os: ubuntu-latest
+          - os: ubuntu-24.04
             generator: "Unix Makefiles"
             name: "Linux"
           - os: windows-latest

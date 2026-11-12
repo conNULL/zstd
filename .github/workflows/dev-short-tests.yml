@@ -14,21 +14,21 @@ permissions: read-all
 
 jobs:
   linux-kernel:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
     - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # tag=v7.0.1
     - name: linux kernel, library + build + test
       run: make -C contrib/linux-kernel test CFLAGS="-Werror -Wunused-const-variable -Wunused-but-set-variable"
 
   benchmarking:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
     - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # tag=v7.0.1
     - name: make benchmarking
       run: make benchmarking
 
   check-32bit: # designed to catch https://github.com/facebook/zstd/issues/2428
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
     - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # tag=v7.0.1
     - name: make check on 32-bit
@@ -39,7 +39,7 @@ jobs:
         CFLAGS="-m32 -O1 -fstack-protector" make V=1 -C tests test-cli-tests
 
   build-c89:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
     - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # tag=v7.0.1
     - name: ensure zstd can be built with c89/c90 compilers (+ long long support + variadic macros)
@@ -47,7 +47,7 @@ jobs:
         make c89build V=1
 
   build-zstd-dll:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
     - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # tag=v7.0.1
     - name: build zstd bin against a dynamic lib (debuglevel for more dependencies)
@@ -56,7 +56,7 @@ jobs:
         DEBUGLEVEL=2 make -C programs zstd-dll
 
   gcc-7-libzstd:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
     - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # tag=v7.0.1
     - name: gcc-7 + libzstdmt compilation
@@ -73,7 +73,7 @@ jobs:
     # LDFLAGS=-Wl,--no-undefined : will make the linker fail if dll is underlinked
 
   cpp-gnu90-c99-compatibility:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
     - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # tag=v7.0.1
     - name: C++, gnu90 and c99 compatibility
@@ -87,7 +87,7 @@ jobs:
         make travis-install   # just ensures `make install` works
 
   mingw-cross-compilation:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
     - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # tag=v7.0.1
     - name: mingw cross-compilation
@@ -98,7 +98,7 @@ jobs:
         CC=x86_64-w64-mingw32-gcc CXX=x86_64-w64-mingw32-g++ CFLAGS="-Werror -O1" make zstd
 
   armbuild:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
     - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # tag=v7.0.1
     - name: ARM Build Test
@@ -108,7 +108,7 @@ jobs:
         make armbuild
 
   bourne-shell:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
     - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # tag=v7.0.1
     - name: Bourne shell compatibility (shellcheck)
@@ -118,7 +118,7 @@ jobs:
         shellcheck-v0.7.1/shellcheck --shell=sh --severity=warning --exclude=SC2010 tests/playTests.sh
 
   zlib-wrapper:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
     - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # tag=v7.0.1
     - name: install valgrind
@@ -131,7 +131,7 @@ jobs:
       run: make -C zlibWrapper test-valgrind V=1
 
   lz4-threadpool-libs:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
     - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # tag=v7.0.1
     - name: LZ4, thread pool, and libs build testslib wrapper test
@@ -144,7 +144,7 @@ jobs:
         bash tests/libzstd_builds.sh
 
   gcc-make-all-avx2:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
     - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # tag=v7.0.1
     - name: Make all, with AVX2
@@ -154,7 +154,7 @@ jobs:
         CFLAGS="-Werror -mavx2" make -j all
 
   gcc-make-all-32bit:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
     - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # tag=v7.0.1
     - name: Make all, 32bit mode
@@ -164,7 +164,7 @@ jobs:
         CFLAGS="-Werror -m32" make -j all32
 
   gcc-make-all-32bit-avx2:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
     - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # tag=v7.0.1
     - name: Make all, 32bit + AVX2 mode
@@ -175,7 +175,7 @@ jobs:
 
 
   gcc-8-make:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # tag=v7.0.1
       - name: gcc-8 build
@@ -198,7 +198,7 @@ jobs:
             flags: "HAVE_ZLIB=0 HAVE_LZ4=1 HAVE_LZMA=0"
           - name: "only lzma"
             flags: "HAVE_ZLIB=0 HAVE_LZ4=0 HAVE_LZMA=1"
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # tag=v7.0.1
       - name: Build with ${{matrix.name}}
@@ -208,7 +208,7 @@ jobs:
 
 
   implicit-fall-through:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # tag=v7.0.1
       - name: -Wimplicit-fallthrough build
@@ -219,7 +219,7 @@ jobs:
           CC=clang MOREFLAGS="-Werror -Wimplicit-fallthrough -O0" make -C lib -j libzstd.a ZSTD_LEGACY_SUPPORT=0
 
   meson-linux:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # tag=v7.0.1
       - name: Install packages
@@ -244,7 +244,7 @@ jobs:
           meson install -C mesonBuild --destdir staging/
 
   meson-mingw-cross-compilation:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # tag=v7.0.1
       - name: Install packages
@@ -343,7 +343,7 @@ jobs:
   # If the size grows intentionally, you can raise these numbers.
   # But we do need to think about binary size, since it is a concern.
   libzstd-size:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
     - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # tag=v7.0.1
     - name: libzstd size test
@@ -354,7 +354,7 @@ jobs:
         make clean && make -j -C lib libzstd ZSTD_LIB_MINIFY=1 ZSTD_LIB_COMPRESSION=0 ZSTD_LIB_DICTBUILDER=0 && ./tests/check_size.py lib/libzstd.so 80000
 
   minimal-decompressor-macros:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
     - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # tag=v7.0.1
     - name: minimal decompressor macros
@@ -371,7 +371,7 @@ jobs:
         make clean && make check ZSTD_LIB_EXCLUDE_COMPRESSORS_GREEDY_AND_UP=1 MOREFLAGS="-Werror"
 
   dynamic-bmi2:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
     - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # tag=v7.0.1
     - name: dynamic bmi2 tests
@@ -383,7 +383,7 @@ jobs:
         make clean && make -j check MOREFLAGS="-O0 -Werror -DDYNAMIC_BMI2=0 -mbmi2"
 
   test-variants:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
     - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # tag=v7.0.1
     - name: make all variants & validate
@@ -572,7 +572,7 @@ jobs:
         make install
 
   pkg-config:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     container:
       image: debian:testing
     steps:
@@ -589,7 +589,7 @@ jobs:
           ./simple LICENSE
 
   versions-compatibility:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
     - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # tag=v7.0.1
     - name: Versions Compatibility Test
@@ -597,7 +597,7 @@ jobs:
         make -C tests versionsTest
 
   clangbuild:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
     - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # tag=v7.0.1
     - name: make clangbuild
@@ -605,7 +605,7 @@ jobs:
         make clangbuild
 
   gcc-pgo:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
     - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # tag=v7.0.1
     - name: Build PGO Zstd with GCC
@@ -616,7 +616,7 @@ jobs:
         ./programs/zstd -b
 
   clang-pgo:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
     - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # tag=v7.0.1
     - name: Build PGO Zstd with Clang
@@ -640,7 +640,7 @@ jobs:
           CC=musl-gcc CFLAGS="-Werror -O3" CPPFLAGS=-DZDICT_QSORT=ZDICT_QSORT_C90 make -j -C tests test-zstd V=1
 
   intel-cet-compatibility:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     env:
       # Intel retires the per-release id in the downloadmirror path whenever a new
       # SDE ships, and the old URL then starts answering 403. That has broken this
@@ -679,7 +679,7 @@ jobs:
   icx:
     # install instructions: https://www.intel.com/content/www/us/en/docs/oneapi/installation-guide-linux/2025-0/apt-005.html
     name: icx-check
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
     - name: install icx
       run: |
